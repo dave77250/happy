@@ -17,6 +17,7 @@
     "@ui5/webcomponents-fiori": "2.18.1",
     "@ui5/webcomponents-icons": "^2.18.2",
     "@ui5/webcomponents-react": "2.18.1",
+    "dexie": "^4.4.5",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
