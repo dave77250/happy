@@ -1,0 +1,39 @@
+name: Update external data
+
+on:
+  schedule:
+    - cron: '0 3 * * 0' 
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Télécharger le fichier si le cache est manquant
+        run: |
+          FILE_URL="https://lorcanajson.org/files/current/fr/allCards.json"
+          DEST="public/allCards.json"
+          curl -fSL "$FILE_URL" -o "$DEST"
+
+      - name: Vérifier le fichier
+        run: |
+          if [[ ! -s public/allCards.json ]]; then
+            echo "❌ Fichier vide ou manquant"
+            exit 1
+          fi
+
+      - name: Commit du fichier mis à jour
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add public/allCards.json
+          git commit -m "Update allCards.json"
+          git push
