@@ -1,10 +1,3 @@
-# Lorcana DeckBuilder
+# Happy: un scanner pour vérifier les rappels produits
 
-Un deck builder pour Lorcana.
-Objectif : aider les joueurs à obtenir des decks cohérents, en les complétant au hasard pour les aider.
-
-# TODO
-
-Les problèmes connus et à résoudre :
-- DevTools ne fonctionne pas bien sur tablette, ajouter mon système de logs
-- TabWrapper: les changements de cartes possédées ne sont pas pris en compte quand on passe à l'onglet deck builder, il faut recharger la page pour que ce soit le cas
+Le site officiel permet de rechercher des produits étant rappelés, mais il serait tellement plus simple de scanner le code barre d'un produit pour savoir s'il fait l'objet d'un rappel. C'est le but de ce projet.
