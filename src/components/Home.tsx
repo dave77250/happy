@@ -12,7 +12,7 @@ type OpenFoodFactsResponse = {
 
 export function Home(_props: HomeProps) {
     const [productInfo, setProductInfo] = useState("In progress");
-    useEffect(() ={
+    useEffect(() => {
         const client = new OpenFoodFacts(window.fetch);
         client.getProductV3("5000112546415").then((res: OpenFoodFactsResponse) => {
             if(res.error) {
