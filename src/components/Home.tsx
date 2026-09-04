@@ -10,6 +10,11 @@ type OpenFoodFactsResponse = {
     error?: any
 };
 
+type ProductInfo ={
+    name: string,
+    imageUrl: string
+}
+
 export function Home(_props: HomeProps) {
     const [productInfo, setProductInfo] = useState("In progress");
     useEffect(() => {
@@ -18,7 +23,12 @@ export function Home(_props: HomeProps) {
             if(res.error) {
                 setProductInfo("ERROR : " + res?.error?.toString());
             } else {
-                setProductInfo(JSON.stringify(res?.data));
+                const data = res.data;
+                const prodInfo: ProductInfo = {
+                    name: data?.product?.product_name_fr || data?.product.?product_name
+                    imageUrl: data?.product.image_front_small_url
+                }
+                setProductInfo(JSON.stringify(prodInfo));
             }
         });
     }, []);
