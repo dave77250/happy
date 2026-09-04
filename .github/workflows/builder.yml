@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [24.x]
 
     steps:
     - uses: actions/checkout@v5
@@ -36,7 +36,7 @@ jobs:
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git fetch origin main --depth 1
         git reset --hard origin/main
-        npm ci
+        npm ci --verbose
         npm run build
         mv dist docs
         git add docs
