@@ -18,7 +18,7 @@ export function Home(_props: HomeProps) {
             if(res.error) {
                 setProductInfo("ERROR : " + res?.error?.toString());
             } else {
-                setProductInfo(res?.data?.toString() ?? "undefined");
+                setProductInfo(JSON.stringify(res?.data));
             }
         });
     }, []);
