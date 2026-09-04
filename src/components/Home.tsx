@@ -25,7 +25,7 @@ export function Home(_props: HomeProps) {
             } else {
                 const data = res.data;
                 const prodInfo: ProductInfo = {
-                    name: data?.product?.product_name_fr || data?.product?.product_name
+                    name: data?.product?.product_name_fr || data?.product?.product_name,
                     imageUrl: data?.product?.image_front_small_url ?? "no url"
                 }
                 setProductInfo(JSON.stringify(prodInfo));
