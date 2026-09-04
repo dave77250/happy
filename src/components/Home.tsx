@@ -16,7 +16,7 @@ export function Home(_props: HomeProps) {
         const client = new OpenFoodFacts(window.fetch);
         client.getProductV3("5000112546415").then((res: OpenFoodFactsResponse) => {
             if(res.error) {
-                setProductInfo("ERROR : " + res?.error?.toString() ?? "undefined");
+                setProductInfo("ERROR : " + res?.error?.toString());
             } else {
                 setProductInfo(res?.data?.toString() ?? "undefined");
             }
@@ -25,7 +25,7 @@ export function Home(_props: HomeProps) {
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>Hello world !</Text>
-            <Text>productInfo</Text>
+            <Text>{productInfo}</Text>
         </FlexBox>
     );
 }
