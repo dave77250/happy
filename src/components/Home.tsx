@@ -29,24 +29,3 @@ export function Home(_props: HomeProps) {
         </FlexBox>
     );
 }
-
-import { OpenFoodFacts } from "@openfoodfacts/openfoodfacts-nodejs";
-
-// if you're on the browser, you can pass the fetch function as a parameter
-const client = new OpenFoodFacts(window.fetch);
-// or if you're on Node.js, you can pass the global fetch function
-const client = new OpenFoodFacts(globalThis.fetch);
-// or if you're using a custom fetch implementation
-import fetch from "node-fetch";
-
-const client = new OpenFoodFacts(fetch);
-
-(async () => {
-  // then you can use the client to access the Open Food Facts API
-  const { data, error } = await client.getProductV3("5000112546415");
-  if (!data) {
-    console.error("Error fetching product:", error);
-    return;
-  }
-  console.log("Product data:", data);
-})();
