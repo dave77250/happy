@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@openfoodfacts/openfoodfacts-nodejs": "^2.0.0-alpha.35",
     "@ui5/webcomponents": "2.18.1",
     "@ui5/webcomponents-base": "2.18.1",
     "@ui5/webcomponents-fiori": "2.18.1",
