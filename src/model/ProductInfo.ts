@@ -2,11 +2,6 @@ import { OpenFoodFacts } from "@openfoodfacts/openfoodfacts-nodejs";
 
 export type ProductId = string;
 
-type OpenFoodFactsResponse = {
-    data?: any,
-    error?: any
-};
-
 type ProductInfo = {
     ean: ProductId,
     name: string,
@@ -16,7 +11,7 @@ type ProductInfo = {
 const offClient = new OpenFoodFacts(window.fetch);
 
 export async function loadOffProductInfo(ean: ProductId): Promise<ProductInfo | undefined> {
-    const res = await client.getProductV3(ean);
+    const res = await offClient.getProductV3(ean);
     if(res.error) {
         return undefined;
     } else {
