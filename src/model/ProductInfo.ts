@@ -15,7 +15,7 @@ type ProductInfo = {
 
 const offClient = new OpenFoodFacts(window.fetch);
 
-export async function loadOffProductInfo(ean: ProductId): ProductInfo | undefined {
+export async function loadOffProductInfo(ean: ProductId): Promise<ProductInfo | undefined> {
     const res = await client.getProductV3(ean);
     if(res.error) {
         return undefined;

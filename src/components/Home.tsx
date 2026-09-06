@@ -8,7 +8,7 @@ export type HomeProps = {
 export function Home(_props: HomeProps) {
     const [productInfo, setProductInfo] = useState("In progress");
     useEffect(() => {
-        loadOffProductInfo("7622210449283").then(pi => setProductInfo(JSON.stringify(pi)));
+        loadOffProductInfo("7622210449283").then(pi => setProductInfo(JSON.stringify(pi ?? "undefined")));
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
