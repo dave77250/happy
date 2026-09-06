@@ -7,14 +7,22 @@ export type HomeProps = {
 
 export function Home(_props: HomeProps) {
     const [productInfo, setProductInfo] = useState("In progress");
+    const [imageUrl, setImageUrl] = useState<string|undefined>(undefined);
     useEffect(() => {
-        loadOffProductInfo("7622210449283").then(pi => setProductInfo(JSON.stringify(pi ?? "undefined")));
+        loadOffProductInfo("7622210449283").then(pi => {
+            if (pi) {
+                setProductInfo(JSON.stringify(pi);
+                setImageUrl(pi.imageUrl);
+            } else {
+                setProductInfo("erreur lors de la lecture du produit");
+            }
+        }));
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>Hello world !</Text>
             <Text>{productInfo}</Text>
-            {productInfo?.imageUrl ? <img src={productInfo.imageUrl}/> : <></>}
+            {imageUrl ? <img src={imageUrl}/> : <></>}
         </FlexBox>
     );
 }
