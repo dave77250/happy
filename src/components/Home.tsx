@@ -16,7 +16,7 @@ export function Home(_props: HomeProps) {
             } else {
                 setProductInfo("erreur lors de la lecture du produit");
             }
-        }));
+        })
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
