@@ -19,7 +19,7 @@ export async function loadOffProductInfo(ean: ProductId): Promise<ProductInfo | 
         const prodInfo: ProductInfo = {
             ean,
             name: data?.product_name_fr || data?.product_name,
-            imageUrl: data?.image_front_small_url ?? "no url"
+            imageUrl: data?.image_front_small_url
         }
         return prodInfo;
     }
