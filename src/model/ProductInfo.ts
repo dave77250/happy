@@ -4,8 +4,8 @@ export type ProductId = string;
 
 type ProductInfo = {
     ean: ProductId,
-    name: string,
-    imageUrl: string
+    name?: string,
+    imageUrl?: string
 }
 
 const offClient = new OpenFoodFacts(window.fetch);
@@ -18,8 +18,8 @@ export async function loadOffProductInfo(ean: ProductId): Promise<ProductInfo | 
         const data = res.data;
         const prodInfo: ProductInfo = {
             ean,
-            name: data?.product?.product_name_fr || data?.product?.product_name,
-            imageUrl: data?.product?.image_front_small_url ?? "no url"
+            name: data?.product_name_fr || data?.product_name,
+            imageUrl: data?.image_front_small_url ?? "no url"
         }
         return prodInfo;
     }
