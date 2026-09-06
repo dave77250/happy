@@ -1,0 +1,32 @@
+import { OpenFoodFacts } from "@openfoodfacts/openfoodfacts-nodejs";
+
+export type ProductId = string;
+
+type OpenFoodFactsResponse = {
+    data?: any,
+    error?: any
+};
+
+type ProductInfo = {
+    ean: ProductId,
+    name: string,
+    imageUrl: string
+}
+
+const offClient = new OpenFoodFacts(window.fetch);
+
+export async function loadOffProductInfo(ean: ProductId): ProductInfo | undefined {
+    const res = await client.getProductV3(ean);
+    if(res.error) {
+        return undefined;
+    } else {
+        const data = res.data;
+        const prodInfo: ProductInfo = {
+            ean,
+            name: data?.product?.product_name_fr || data?.product?.product_name,
+            imageUrl: data?.product?.image_front_small_url ?? "no url"
+        }
+        return prodInfo;
+    }
+}
+
