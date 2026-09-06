@@ -11,7 +11,7 @@ export function Home(_props: HomeProps) {
     useEffect(() => {
         loadOffProductInfo("7622210449283").then(pi => {
             if (pi) {
-                setProductInfo(JSON.stringify(pi);
+                setProductInfo(JSON.stringify(pi));
                 setImageUrl(pi.imageUrl);
             } else {
                 setProductInfo("erreur lors de la lecture du produit");
