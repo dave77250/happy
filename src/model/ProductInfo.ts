@@ -3,7 +3,7 @@ import { debugLog } from "../tools/Debug"
 
 export type ProductId = string;
 
-type ProductInfo = {
+export type ProductInfo = {
     ean: ProductId,
     name?: string,
     imageUrl?: string
