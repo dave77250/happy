@@ -52,5 +52,6 @@ export async function deleteOldProducts(nDays: number) {
   await db.products
     .where('scanDate')
     .below(cutoff)
+    .and(product => !product.isFavorite)
     .delete();
 }
