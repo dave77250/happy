@@ -1,4 +1,4 @@
-import { ProductInfo } from "./ProductInfo"
+import { ProductId, ProductInfo, loadOffProductInfo } from "./ProductInfo"
 import { Dexie, type EntityTable } from "dexie"
 
 export type ScannedProduct = ProductInfo & {
@@ -21,4 +21,36 @@ function createScannedProduct(info: ProductInfo): ScannedProduct {
         scanDate: Date.now(),
         isFavorite: false
     }
+}
+
+export async function getProduct(ean: ProductId) {
+  var product: ScannedProduct | undefined = await db.products.get({ean});
+  if (product === undefined) {
+    const productInfo = loadOffProductInfo(ean);
+    if (productInfo === undefined) {
+      // default values, do not store in db
+      product = createScannedProduct({
+        ean,
+        name: "Produit inconnu",
+        imageUrl: "???"
+      });
+    } else {
+      product = createScannedProduct(productInfo);
+      await db.products.add(product);
+    }
+  }
+  return product;
+}
+
+export async function setFavorite(ean: ProductId, isFavorite: boolean) {
+  await db.products.update(ean, {isFavorite});
+}
+
+async function deleteOldProducts(nDays: number) {
+  const cutoff = Date.now() - nDays * 24 * 60 * 60 * 1000;
+  
+  await db.products
+    .where('scanDate')
+    .below(cutoff)
+    .delete();
 }
