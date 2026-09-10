@@ -26,7 +26,7 @@ function createScannedProduct(info: ProductInfo): ScannedProduct {
 export async function getProduct(ean: ProductId) {
   var product: ScannedProduct | undefined = await db.products.get({ean});
   if (product === undefined) {
-    const productInfo = loadOffProductInfo(ean);
+    const productInfo = await loadOffProductInfo(ean);
     if (productInfo === undefined) {
       // default values, do not store in db
       product = createScannedProduct({
