@@ -46,7 +46,7 @@ export async function setFavorite(ean: ProductId, isFavorite: boolean) {
   await db.products.update(ean, {isFavorite});
 }
 
-async function deleteOldProducts(nDays: number) {
+export async function deleteOldProducts(nDays: number) {
   const cutoff = Date.now() - nDays * 24 * 60 * 60 * 1000;
   
   await db.products
