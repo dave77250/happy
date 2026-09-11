@@ -54,7 +54,7 @@ export async function setFavorite(product: ScannedProduct, newIsFavorite: boolea
   return {
     ...product,
     isFavorite: newIsFavorite
-  }
+  };
 }
 
 export async function deleteOldProducts(nDays: number) {

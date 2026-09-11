@@ -2,7 +2,7 @@ name: Update external data
 
 on:
   schedule:
-    - cron: '0 3 * * 0' 
+    - cron: '0 3 * * *' 
   workflow_dispatch:
 
 jobs:
@@ -19,13 +19,13 @@ jobs:
 
       - name: Télécharger le fichier si le cache est manquant
         run: |
-          FILE_URL="https://lorcanajson.org/files/current/fr/allCards.json"
-          DEST="public/allCards.json"
+          FILE_URL="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-espaces/exports/json/?lang=fr&timezone=Europe%2FParis"
+          DEST="public/rappels.json"
           curl -fSL "$FILE_URL" -o "$DEST"
 
       - name: Vérifier le fichier
         run: |
-          if [[ ! -s public/allCards.json ]]; then
+          if [[ ! -s public/rappels.json ]]; then
             echo "❌ Fichier vide ou manquant"
             exit 1
           fi
@@ -34,6 +34,6 @@ jobs:
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git add public/allCards.json
-          git commit -m "Update allCards.json"
+          git add public/rappels.json
+          git commit -m "Update rappels.json"
           git push
