@@ -19,7 +19,7 @@ jobs:
 
       - name: Télécharger le fichier si le cache est manquant
         run: |
-          FILE_URL="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-espaces/exports/json/?lang=fr&timezone=Europe%2FParis"
+          FILE_URL="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-espaces/exports/json/?lang=fr"
           DEST="public/rappels.json"
           curl -fSL "$FILE_URL" -o "$DEST"
 
