@@ -38,20 +38,33 @@ export async function getProduct(ean: ProductId) {
       product = createScannedProduct(productInfo);
       await db.products.add(product);
     }
+  } else {
+    // update the scan date, the product was just scanned
+    product = {
+      ...product,
+      scanDate: Date.now()
+    };
+    await db.products.update(product.ean, { scanDate: product.scanDate });
   }
   return product;
 }
 
-export async function setFavorite(ean: ProductId, isFavorite: boolean) {
-  await db.products.update(ean, {isFavorite});
+export async function setFavorite(product: ScannedProduct, newIsFavorite: boolean) {
+  await db.products.update(product.ean, {isFavorite: newIsFavorite});
+  return {
+    ...product,
+    isFavorite: newIsFavorite
+  }
 }
 
 export async function deleteOldProducts(nDays: number) {
   const cutoff = Date.now() - nDays * 24 * 60 * 60 * 1000;
   
-  await db.products
+  const nbDeleted = await db.products
     .where('scanDate')
     .below(cutoff)
     .and(product => !product.isFavorite)
     .delete();
+
+  return nbDeleted;
 }
