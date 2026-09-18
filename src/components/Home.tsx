@@ -17,7 +17,7 @@ export function Home(_props: HomeProps) {
             }
         });
         fetch("https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-trie/exports/json/?lang=fr&timezone=Europe%2FParis&where=%28%28%60gtin%60+%3D+3560071492809%29%29")
-        .then(response => response.json()).then(setRecallJson).catch(err => setRecallJson("ERREUR " + err.toString()));
+        .then(response => response.json()).then(json => setRecallJson(JSON.stringify(json))).catch(err => setRecallJson("ERREUR " + err.toString()));
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
