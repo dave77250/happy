@@ -7,13 +7,11 @@ export type HomeProps = {
 
 export function Home(_props: HomeProps) {
     const [productInfo, setProductInfo] = useState("In progress");
-    const [imageUrl, setImageUrl] = useState<string|undefined>(undefined);
-    const [recallJson, setRecallJson] = useState("Not yet");
+    const [recallJson, setRecallJson] = useState("Chargement du rappel");
     useEffect(() => {
         loadOffProductInfo("7622210449283").then(pi => {
             if (pi) {
                 setProductInfo(JSON.stringify(pi));
-                setImageUrl(pi.imageUrl);
             } else {
                 setProductInfo("erreur lors de la lecture du produit");
             }
@@ -25,7 +23,6 @@ export function Home(_props: HomeProps) {
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>Hello world !</Text>
             <Text>{productInfo}</Text>
-            {imageUrl ? <img src={imageUrl}/> : <></>}
             <Text>{recallJson}</Text>
         </FlexBox>
     );
