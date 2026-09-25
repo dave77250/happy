@@ -28,7 +28,7 @@ export async function getRecallInfo(ean: ProductId): Promise<RecallInfo> {
     if (Array.isArray(data)) {
         return {
             isRecalled: true,
-            recallDetailsUrl: data["lien_vers_la_fiche_rappel"]
+            recallDetailsUrl: data["lien_vers_la_fiche_rappel"] as string
         };
     } else {
         return {
