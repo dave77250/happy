@@ -25,10 +25,10 @@ export async function getRecallInfo(ean: ProductId): Promise<RecallInfo> {
     debugLog("url for " + ean + " is " + url);
     const response = await fetch(url);
     const data = await response.json();
-    if (Array.isArray(data)) {
+    if (Array.isArray(data) && data.length > 0) {
         return {
             isRecalled: true,
-            recallDetailsUrl: data["lien_vers_la_fiche_rappel"] as string
+            recallDetailsUrl: data[0].lien_vers_la_fiche_rappel as string
         };
     } else {
         return {
