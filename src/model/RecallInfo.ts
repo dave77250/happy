@@ -20,7 +20,7 @@ function buildRappelConsoUrl(ean: ProductId) {
   return `${baseUrl}?${params.toString()}`;
 }
 
-export async function getRecallInfo(ean: ProductId): RecallInfo {
+export async function getRecallInfo(ean: ProductId): Promise<RecallInfo> {
     const url = buildRappelConsoUrl(ean);
     debugLog("url for " + ean + " is " + url);
     const response = await fetch(url);

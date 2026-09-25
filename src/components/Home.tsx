@@ -17,7 +17,7 @@ export function Home(_props: HomeProps) {
                 setProductInfo("erreur lors de la lecture du produit");
             }
         });
-        getRecallInfo("3560071492809").then(info => setRecallInfo(JSON.stringify(info)));
+        getRecallInfo("3560071492809").then(info => setRecallJson(JSON.stringify(info)));
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
