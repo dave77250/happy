@@ -4,7 +4,7 @@ const fetch = window.fetch;
 
 export type RecallInfo = {
     isRecalled: boolean,
-    recallDetailsUrl: string
+    recallDetailsUrl?: string
 }
 
 export async function getRecallInfo(ean: ProductId) {
