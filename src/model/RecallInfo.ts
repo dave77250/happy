@@ -1,7 +1,7 @@
 import { ProductId } from "./ProductInfo"
 import { debugLog } from "../tools/Debug"
 
-// const fetch = window.fetch;
+const fetch = window.fetch;
 
 export type RecallInfo = {
     isRecalled: boolean,
@@ -20,7 +20,20 @@ function buildRappelConsoUrl(ean: ProductId) {
   return `${baseUrl}?${params.toString()}`;
 }
 
-export async function getRecallInfo(ean: ProductId) {
+export async function getRecallInfo(ean: ProductId): RecallInfo {
     const url = buildRappelConsoUrl(ean);
     debugLog("url for " + ean + " is " + url);
+    const response = await fetch(url);
+    const data = await response.json();
+    if (isArray(data)) {
+        return {
+            isRecalled: true,
+            recallDetailsUrl: data["lien_vers_la_fiche_rappel"]
+        };
+    } else {
+        return {
+            isRecalled: false,
+            recallDetailsUrl: undefined
+        };
+    }
 }
