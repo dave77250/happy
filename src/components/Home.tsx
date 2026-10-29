@@ -24,7 +24,7 @@ export function Home(_props: HomeProps) {
   footer={<div><Bar design="FloatingFooter" endContent={<><Button design="Positive">Accept</Button><Button design="Negative">Decline</Button><Button design="Transparent">Cancel</Button></>}/></div>}
   header={<Bar design="Header" endContent={<Button accessibleName="Settings" icon="settings" title="Go to Settings"/>} startContent={<Button accessibleName="Home" icon="home" title="Go Home"/>}><Label>Title</Label></Bar>}
   style={{
-    height: '100%'
+    height: '100dvh'
   }}
 >
   <div>
