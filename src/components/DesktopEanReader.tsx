@@ -10,7 +10,7 @@ export type DesktopEanReaderProps = {
 export function DesktopEanReader(props: DesktopEanReaderProps) {
     const [currentText, setCurrentText] = useState("");
     return <FlexBox direction = {FlexBoxDirection.Row}>
-        <Input showClearIcon={true} placeHolder="Code barres" value={currentText} onInput={(event) => setCurrentText(event.target.value)}></Input>
+        <Input showClearIcon={true} placeholder="Code barres" value={currentText} onInput={(event) => setCurrentText(event.target.value)}></Input>
         <Button accessibleName="Chercher" icon="search" title="Chercher" onClick={() => props.eanRead(currentText)}/>
     </FlexBox>
 }
