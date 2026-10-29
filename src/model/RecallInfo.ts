@@ -25,6 +25,12 @@ function isStale(entry: CacheEntry) {
     return (currentTime - entry.genTime) >= MAX_ENTRY_AGE;
 }
 
+function createCacheEntry(recallInfo: RecallInfo) {
+    return {
+        recallInfo,
+        genTime: getCurrentTimeInSeconds()
+    };
+}
 
 function buildRappelConsoUrl(ean: ProductId) {
   const baseUrl = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-trie/exports/json/";
@@ -64,6 +70,6 @@ export async function getRecallInfo(ean: ProductId): Promise<RecallInfo> {
         }
     }
     const recallInfo = await fetchRecallInfo(ean);
-    recallInfoCache.set(ean, recallInfo);
+    recallInfoCache.set(ean, createCacheEntry(recallInfo));
     return recallInfo;
 }
