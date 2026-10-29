@@ -1,11 +1,11 @@
-import { Page } from "@ui5/webcomponents-react";
-import { useState } from "react";
+import { Page, Bar, Button } from "@ui5/webcomponents-react";
+// import { useState } from "react";
 
-enum CurrentScreen {
+/* enum CurrentScreen {
     ProductList = 'ProductList',
     ProductDetails = 'ProductDetails',
     Prefs = 'Prefs'
-};
+}; */
 
 export type HomeProps = {
 };
