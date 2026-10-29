@@ -1,7 +1,5 @@
-import { FlexBox, FlexBoxDirection, Text, Page } from "@ui5/webcomponents-react";
-import { useState, useEffect } from "react";
-import { loadOffProductInfo } from "../model/ProductInfo";
-import { getRecallInfo } from "../model/RecallInfo";
+import { Page } from "@ui5/webcomponents-react";
+import { useState } from "react";
 
 enum CurrentScreen {
     ProductList = 'ProductList',
@@ -16,8 +14,8 @@ export type HomeProps = {
 // ex de produit sans rappel : 7622210449283
 
 export function Home(_props: HomeProps) {
-    const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.Home);
-    const [currentEan, setCurrentEan] = useState<ProductId>('0000');
+    // const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.Home);
+    // const [currentEan, setCurrentEan] = useState<ProductId>('0000');
 
     return <Page
   backgroundDesign="Solid"
