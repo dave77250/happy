@@ -13,4 +13,5 @@ export function ProductDetails(props: ProductDetailsProps) {
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>I am the Product Details for product {props.ean}</Text>
         </FlexBox>
+    );
 }

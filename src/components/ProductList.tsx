@@ -11,4 +11,5 @@ export function ProductList(_props: ProductListProps) {
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>I am the Product List</Text>
         </FlexBox>
+    );
 }

@@ -11,4 +11,5 @@ export function PrefsEditor(_props: PrefsEditorProps) {
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Text>I am the Prefs Editor</Text>
         </FlexBox>
+    );
 }
