@@ -1,4 +1,5 @@
 import { FlexBox, FlexBoxDirection, Text } from "@ui5/webcomponents-react";
+import { ProductId } from "../model/ProductInfo";
 // import { useState, useEffect } from "react"
 
 export type ProductDetailsProps = {
