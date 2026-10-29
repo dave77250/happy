@@ -1,5 +1,6 @@
 import { Page, Bar, Button, Label } from "@ui5/webcomponents-react";
 import "@ui5/webcomponents-icons/dist/home.js";
+import "@ui5/webcomponents-icons/dist/settings.js";
 
 // import { useState } from "react";
 
