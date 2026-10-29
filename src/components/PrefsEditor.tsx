@@ -1,7 +1,5 @@
 import { FlexBox, FlexBoxDirection, Text } from "@ui5/webcomponents-react";
-import { useState, useEffect } from "react";
-import { loadOffProductInfo } from "../model/ProductInfo";
-import { getRecallInfo } from "../model/RecallInfo";
+// import { useState, useEffect } from "react";
 
 export type PrefsEditorProps = {
 };
