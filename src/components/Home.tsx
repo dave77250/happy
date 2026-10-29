@@ -5,8 +5,7 @@ import { ProductDetails } from "./ProductDetails";
 import { PrefsEditor } from "./PrefsEditor";
 import "@ui5/webcomponents-icons/dist/home.js";
 import "@ui5/webcomponents-icons/dist/settings.js";
-
-// import { useState } from "react";
+import { useState } from "react";
 
 enum CurrentScreen {
     ProductList = 'ProductList',
@@ -29,7 +28,7 @@ function getCurrentScreen(screen: CurrentScreen, ean: ProductId, setEan: (ean: P
 }
 
 export function Home(_props: HomeProps) {
-    const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.Home);
+    const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.ProductList);
     const [currentEan, setCurrentEan] = useState<ProductId>('0000');
 
     const openProductDetails = (ean: ProductId) => {
