@@ -3,6 +3,7 @@ import { ProductId } from "../model/ProductInfo";
 import { ProductList } from "./ProductList";
 import { ProductDetails } from "./ProductDetails";
 import { PrefsEditor } from "./PrefsEditor";
+import { DesktopEanReader } from "./DesktopEanReader";
 import "@ui5/webcomponents-icons/dist/home.js";
 import "@ui5/webcomponents-icons/dist/settings.js";
 import { useState } from "react";
@@ -27,6 +28,10 @@ function getCurrentScreen(screen: CurrentScreen, ean: ProductId, setEan: (ean: P
     }
 }
 
+function getEanReader(eanRead: (ean: ProductId) => void) {
+    return <DesktopEanReader eanRead={eanRead}/>
+}
+
 export function Home(_props: HomeProps) {
     const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.ProductList);
     const [currentEan, setCurrentEan] = useState<ProductId>('0000');
@@ -48,8 +53,9 @@ export function Home(_props: HomeProps) {
             <Label>Happy</Label>
     </Bar>;
 
+    const eanReader = getEanReader(openProductDetails);
     const footer = <div>
-        <Bar design="FloatingFooter" endContent={<><Button design="Positive">Accept</Button><Button design="Negative">Decline</Button><Button design="Transparent">Cancel</Button></>}/>
+        <Bar design="FloatingFooter" endContent={eanReader}/>
     </div>;
 
     return <Page
