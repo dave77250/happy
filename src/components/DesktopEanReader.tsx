@@ -4,16 +4,14 @@ import { useState } from "react";
 import "@ui5/webcomponents-icons/dist/search.js";
 
 export type DesktopEanReaderProps = {
-    slot?: string,
+    slot?: string, // for proper positioning in the footer
     eanRead: (ean: ProductId) => void
 }
 
 export function DesktopEanReader(props: DesktopEanReaderProps) {
     const [currentText, setCurrentText] = useState("");
-    return <div slot={slot}>
-        <FlexBox direction = {FlexBoxDirection.Row}>
-            <Input showClearIcon={true} placeholder="Code barres" value={currentText} onInput={(event) => setCurrentText(event.target.value)}></Input>
-            <Button accessibleName="Chercher" icon="search" title="Chercher" onClick={() => props.eanRead(currentText)}/>
-        </FlexBox>
-    </div>
+    return <FlexBox direction = {FlexBoxDirection.Row} slot={props.slot}>
+        <Input showClearIcon={true} placeholder="Code barres" value={currentText} onInput={(event) => setCurrentText(event.target.value)}></Input>
+        <Button accessibleName="Chercher" icon="search" title="Chercher" onClick={() => props.eanRead(currentText)}/>
+    </FlexBox>
 }
