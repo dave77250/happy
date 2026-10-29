@@ -68,3 +68,9 @@ export async function deleteOldProducts(nDays: number) {
 
   return nbDeleted;
 }
+
+export async function getScannedProducts() {
+  const allProducts = await db.products.orderBy("scanDate").reverse().toArray();
+
+  return allProducts.sort((a, b) => Number(b.isFavorite) - Number(a.isFavorite));
+}
