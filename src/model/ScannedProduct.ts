@@ -32,7 +32,7 @@ export async function getProduct(ean: ProductId) {
       product = createScannedProduct({
         ean,
         name: "Produit inconnu",
-        imageUrl: "???"
+        imageUrl: ""
       });
     } else {
       product = createScannedProduct(productInfo);

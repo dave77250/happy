@@ -21,12 +21,11 @@ export type HomeProps = {
 // ex de produit sans rappel : 7622210449283
 
 function getCurrentScreen(screen: CurrentScreen, ean: ProductId,
-    setEan: (ean: ProductId) => void,
-    setTitle: (title: string) => void
+    setEan: (ean: ProductId) => void
 ) {
     switch(screen) {
         case CurrentScreen.ProductList: return <ProductList showProductDetails={setEan}/>;
-        case CurrentScreen.ProductDetails: return <ProductDetails ean={ean} setTitle={setTitle}/>;
+        case CurrentScreen.ProductDetails: return <ProductDetails ean={ean}/>;
         case CurrentScreen.Prefs: return <PrefsEditor/>;
     }
 }
@@ -43,7 +42,7 @@ export function Home(_props: HomeProps) {
 
     const openProductDetails = (ean: ProductId) => {
         setCurrentEan(ean);
-        setTitle(ean);
+        setTitle("Détails produit");
         setCurrentScreen(CurrentScreen.ProductDetails);
     };
     const goHome = () => {
