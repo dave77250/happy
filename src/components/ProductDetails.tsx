@@ -43,6 +43,11 @@ export function ProductDetails(props: ProductDetailsProps) {
                     <Title level="H2" size="H2">{productName}</Title>
                     <p></p>
                     {getRecallInfoMessageStrip()}
+                    {
+                        recallInfo?.recallDetailsUrl
+                            ? <iframe src={recallInfo!.recallDetailsUrl} style={{ width: '100%' }}/>
+                            : <></>
+                    }
                 </FlexBox>
             </FlexBox>
         </FlexBox>
