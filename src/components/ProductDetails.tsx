@@ -30,10 +30,11 @@ export function ProductDetails(props: ProductDetailsProps) {
         </Avatar>
         : <Icon name="busy" />;
     const productName = scannedProduct?.name || undefined;
-    const cardHeader = <CardHeader loading={scannedProduct === undefined} avatar={avatar} titleText={productName}/>
+    const cardHeader = <CardHeader avatar={avatar} titleText={productName}/>
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <Card
+                loading={scannedProduct === undefined}
                 header={cardHeader}
                 style={{
                     width: '100%'

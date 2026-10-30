@@ -53,7 +53,7 @@ export function Home(_props: HomeProps) {
         setTitle("Préférences");
         setCurrentScreen(CurrentScreen.Prefs);
     };
-    const displayedScreen = getCurrentScreen(currentScreen, currentEan, openProductDetails, setTitle);
+    const displayedScreen = getCurrentScreen(currentScreen, currentEan, openProductDetails);
     const header = <Bar design="Header"
         endContent={<Button accessibleName="Settings" icon="settings" title="Go to Settings" onClick={openSettings}/>}
         startContent={<Button accessibleName="Home" icon="home" title="Go Home" onClick={goHome}/>}>
