@@ -20,10 +20,13 @@ export type HomeProps = {
 // ex de produit avec rappel : 3560071492809
 // ex de produit sans rappel : 7622210449283
 
-function getCurrentScreen(screen: CurrentScreen, ean: ProductId, setEan: (ean: ProductId) => void) {
+function getCurrentScreen(screen: CurrentScreen, ean: ProductId,
+    setEan: (ean: ProductId) => void,
+    setTitle: (title: string) => void
+) {
     switch(screen) {
         case CurrentScreen.ProductList: return <ProductList showProductDetails={setEan}/>;
-        case CurrentScreen.ProductDetails: return <ProductDetails ean={ean}/>;
+        case CurrentScreen.ProductDetails: return <ProductDetails ean={ean} setTitle={setTitle}/>;
         case CurrentScreen.Prefs: return <PrefsEditor/>;
     }
 }
@@ -34,9 +37,9 @@ function getEanReader(eanRead: (ean: ProductId) => void) {
 
 export function Home(_props: HomeProps) {
     const DEFAULT_APP_TITLE = "Happy";
-    const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.ProductList);
     const [currentEan, setCurrentEan] = useState<ProductId>('0000');
     const [title, setTitle] = useState(DEFAULT_APP_TITLE);
+    const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.ProductList);
 
     const openProductDetails = (ean: ProductId) => {
         setCurrentEan(ean);
@@ -51,7 +54,7 @@ export function Home(_props: HomeProps) {
         setTitle("Préférences");
         setCurrentScreen(CurrentScreen.Prefs);
     };
-    const displayedScreen = getCurrentScreen(currentScreen, currentEan, openProductDetails);
+    const displayedScreen = getCurrentScreen(currentScreen, currentEan, openProductDetails, setTitle);
     const header = <Bar design="Header"
         endContent={<Button accessibleName="Settings" icon="settings" title="Go to Settings" onClick={openSettings}/>}
         startContent={<Button accessibleName="Home" icon="home" title="Go Home" onClick={goHome}/>}>
