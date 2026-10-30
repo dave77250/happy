@@ -1,10 +1,11 @@
 import { FlexBox, FlexBoxDirection, Icon, Title, MessageStrip } from "@ui5/webcomponents-react";
 import { ProductId } from "../model/ProductInfo";
-import { ScannedProduct, getProduct } from "../model/ScannedProduct";
+import { ScannedProduct, getProduct, setFavorite } from "../model/ScannedProduct";
 import { getRecallInfo, RecallInfo } from "../model/RecallInfo";
 import { useState, useEffect } from "react"
 import "@ui5/webcomponents-icons/dist/busy.js";
-import "@ui5/webcomponents-icons/dist/error.js";
+import "@ui5/webcomponents-icons/dist/favorite.js";
+import "@ui5/webcomponents-icons/dist/unfavorite.js";
 
 export type ProductDetailsProps = {
     ean: ProductId
@@ -26,6 +27,13 @@ export function ProductDetails(props: ProductDetailsProps) {
             />
         : <Icon name="busy" />;
     const productName = scannedProduct?.name || undefined;
+    const isFavorite = scannedProduct?.isFavorite ?? false;
+    const favIconName = isFavorite ? "favorite" : "unfavorite";
+    const onFavoriteClick = () => {
+        if (scannedProduct !== undefined) {
+            setFavorite(scannedProduct, !isFavorite).then(setScannedProduct);
+        }
+    }
     const getRecallInfoMessageStrip = () => {
         if (recallInfo !== undefined) {
             return recallInfo.isRecalled
@@ -40,7 +48,10 @@ export function ProductDetails(props: ProductDetailsProps) {
             <FlexBox direction={FlexBoxDirection.Row} style={{width: '100%' }}>
                 {avatar}
                 <FlexBox direction={FlexBoxDirection.Column} style={{ width: '80%', margin: '5px' }}>
-                    <Title level="H2" size="H2">{productName}</Title>
+                    <FlexBox direction={FlexBoxDirection.Row} style={{ width: '100%'}} justifyContent="SpaceBetween">
+                        <Title level="H2" size="H2">{productName ?? "Chargement en cours..."}</Title>
+                        <Icon name={favIconName} onClick={onFavoriteClick}/>
+                    </FlexBox>
                     <p></p>
                     {getRecallInfoMessageStrip()}
                     {
