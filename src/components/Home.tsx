@@ -58,7 +58,7 @@ export function Home(_props: HomeProps) {
     const header = <Bar design="Header"
         endContent={<Button accessibleName="Settings" icon="settings" title="Go to Settings" onClick={openSettings}/>}
         startContent={<Button accessibleName="Home" icon="home" title="Go Home" onClick={goHome}/>}>
-            <Label>Happy</Label>
+            <Label>{title}</Label>
     </Bar>;
 
     const eanReader = getEanReader(openProductDetails);
