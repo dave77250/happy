@@ -33,17 +33,22 @@ function getEanReader(eanRead: (ean: ProductId) => void) {
 }
 
 export function Home(_props: HomeProps) {
+    const DEFAULT_APP_TITLE = "Happy";
     const [currentScreen, setCurrentScreen] = useState<CurrentScreen>(CurrentScreen.ProductList);
     const [currentEan, setCurrentEan] = useState<ProductId>('0000');
+    const [title, setTitle] = useState(DEFAULT_APP_TITLE);
 
     const openProductDetails = (ean: ProductId) => {
         setCurrentEan(ean);
+        setTitle(ean);
         setCurrentScreen(CurrentScreen.ProductDetails);
     };
     const goHome = () => {
+        setTitle(DEFAULT_APP_TITLE);
         setCurrentScreen(CurrentScreen.ProductList);
     };
     const openSettings = () => {
+        setTitle("Préférences");
         setCurrentScreen(CurrentScreen.Prefs);
     };
     const displayedScreen = getCurrentScreen(currentScreen, currentEan, openProductDetails);
