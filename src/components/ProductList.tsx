@@ -8,7 +8,7 @@ export type ProductListProps = {
     showProductDetails: (ean: ProductId) => void
 };
 
-export function ProductList(_props: ProductListProps) {
+export function ProductList(props: ProductListProps) {
     const [products, setProducts] = useState<ScannedProduct[]>([]);
     useEffect(() => {
         getScannedProducts().then(setProducts);
