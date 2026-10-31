@@ -1,6 +1,8 @@
-import { FlexBox, FlexBoxDirection, Text } from "@ui5/webcomponents-react";
+import { FlexBox, FlexBoxDirection } from "@ui5/webcomponents-react";
+import { ProductListItem } from "./ProductListItem";
 import { ProductId } from "../model/ProductInfo";
-// import { useState, useEffect } from "react";
+import { ScannedProduct, getScannedProducts } from "../model/ScannedProduct";
+import { useState, useEffect } from "react";
 
 export type ProductListProps = {
     showProductDetails: (ean: ProductId) => void
@@ -13,7 +15,7 @@ export function ProductList(_props: ProductListProps) {
     }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
-            {products.map(p => <ProductListItem product={p} onClick={() => showProductDetails(p.ean)}/>)}
+            {products.map((p: ScannedProduct) => <ProductListItem product={p} onClick={() => props.showProductDetails(p.ean)}/>)}
         </FlexBox>
     );
 }

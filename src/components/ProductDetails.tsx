@@ -1,4 +1,4 @@
-import { FlexBox, FlexBoxDirection, Icon, Title, MessageStrip } from "@ui5/webcomponents-react";
+import { FlexBox, FlexBoxDirection, Icon, Title } from "@ui5/webcomponents-react";
 import { ProductId } from "../model/ProductInfo";
 import { ScannedProduct, getProduct, setFavorite } from "../model/ScannedProduct";
 import { getRecallInfo, RecallInfo } from "../model/RecallInfo";

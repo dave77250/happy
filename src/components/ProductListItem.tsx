@@ -1,6 +1,9 @@
-import { FlexBox, FlexBoxDirection, FlexBoxAlignItems, Label } from "@ui5/webcomponents-react";
+import { FlexBox, FlexBoxDirection, FlexBoxAlignItems, Label, Icon } from "@ui5/webcomponents-react";
 import { RecallInfo, getRecallInfo } from "../model/RecallInfo";
+import { ScannedProduct } from "../model/ScannedProduct";
+import { RecallInfoMessageStrip } from "./RecallMessageStrip";
 import "@ui5/webcomponents-icons/dist/favorite.js";
+import { useState, useEffect } from "react";
 
 export type ProductListItemProps ={
     product: ScannedProduct,
@@ -10,7 +13,7 @@ export type ProductListItemProps ={
 export function ProductListItem(props: ProductListItemProps) {
     const [recallInfo, setRecallInfo] = useState<RecallInfo | undefined>(undefined);
     useEffect(() => {
-        getRecallInfo(props.ean).then(setRecallInfo);
+        getRecallInfo(props.product.ean).then(setRecallInfo);
     }, []);
     return <FlexBox
         direction={FlexBoxDirection.Row}
