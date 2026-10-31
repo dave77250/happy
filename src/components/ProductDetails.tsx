@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import "@ui5/webcomponents-icons/dist/busy.js";
 import "@ui5/webcomponents-icons/dist/favorite.js";
 import "@ui5/webcomponents-icons/dist/unfavorite.js";
+import { RecallInfoMessageStrip } from "./RecallMessageStrip";
 
 export type ProductDetailsProps = {
     ean: ProductId
@@ -34,15 +35,7 @@ export function ProductDetails(props: ProductDetailsProps) {
             setFavorite(scannedProduct, !isFavorite).then(setScannedProduct);
         }
     }
-    const getRecallInfoMessageStrip = () => {
-        if (recallInfo !== undefined) {
-            return recallInfo.isRecalled
-                ? <MessageStrip design="Critical" hideCloseButton={true}>Ce produit fait l'objet d'un rappel</MessageStrip>
-                : <MessageStrip design="Positive" hideCloseButton={true}>Ce produit ne fait pas l'objet d'un rappel</MessageStrip>;
-        } else {
-            return <MessageStrip design="Information" hideCloseButton={true}>Chargement des informations de rappel en cours</MessageStrip>;
-        }
-    }
+    
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
             <FlexBox direction={FlexBoxDirection.Row} style={{width: '100%' }}>
@@ -60,7 +53,7 @@ export function ProductDetails(props: ProductDetailsProps) {
                     />
                     </FlexBox>
                     <p></p>
-                    {getRecallInfoMessageStrip()}
+                    <RecallInfoMessageStrip recallInfo={recallInfo}/>
                     {
                         recallInfo?.recallDetailsUrl
                             ? <iframe src={recallInfo!.recallDetailsUrl} style={{ width: '100%' }}/>

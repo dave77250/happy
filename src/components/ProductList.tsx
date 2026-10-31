@@ -7,9 +7,13 @@ export type ProductListProps = {
 };
 
 export function ProductList(_props: ProductListProps) {
+    const [products, setProducts] = useState<ScannedProduct[]>([]);
+    useEffect(() => {
+        getScannedProducts().then(setProducts);
+    }, []);
     return (
         <FlexBox direction={FlexBoxDirection.Column} style={{width: '100%' }}>
-            <Text>I am the Product List</Text>
+            {products.map(p => <ProductListItem product={p} onClick={() => showProductDetails(p.ean)}/>)}
         </FlexBox>
     );
 }
