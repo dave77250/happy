@@ -3,12 +3,12 @@ import { ProductId } from "../model/ProductInfo";
 import { useState } from "react";
 import "@ui5/webcomponents-icons/dist/search.js";
 
-export type DesktopEanReaderProps = {
+export type MobileEanReaderProps = {
     slot?: string, // for proper positioning in the footer
     eanRead: (ean: ProductId) => void
 }
 
-export function DesktopEanReader(props: DesktopEanReaderProps) {
+export function MobileEanReader(props: MobileEanReaderProps) {
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     return <>
         <Button accessibleName="Chercher" icon="search" title="Chercher" onClick={() => setDialogOpen(true)}/>
