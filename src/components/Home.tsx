@@ -3,7 +3,7 @@ import { ProductId } from "../model/ProductInfo";
 import { ProductList } from "./ProductList";
 import { ProductDetails } from "./ProductDetails";
 import { PrefsEditor } from "./PrefsEditor";
-// import { DesktopEanReader } from "./DesktopEanReader";
+import { DesktopEanReader } from "./DesktopEanReader";
 import { MobileEanReader } from "./MobileEanReader";
 import "@ui5/webcomponents-icons/dist/home.js";
 import "@ui5/webcomponents-icons/dist/settings.js";
@@ -21,6 +21,8 @@ export type HomeProps = {
 // ex de produit avec rappel : 3560071492809
 // ex de produit sans rappel : 7622210449283
 
+const DEBUG = false;
+
 function getCurrentScreen(screen: CurrentScreen, ean: ProductId,
     setEan: (ean: ProductId) => void
 ) {
@@ -32,7 +34,9 @@ function getCurrentScreen(screen: CurrentScreen, ean: ProductId,
 }
 
 function getEanReader(eanRead: (ean: ProductId) => void) {
-    return <DesktopEanReader eanRead={eanRead}/>
+    return DEBUG
+        ? <DesktopEanReader eanRead={eanRead}/>
+        : <MobileEanReader eanRead={eanRead}/>
 }
 
 export function Home(_props: HomeProps) {
