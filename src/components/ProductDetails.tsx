@@ -52,8 +52,6 @@ export function ProductDetails(props: ProductDetailsProps) {
                         <Title level="H2" size="H2">{productName ?? "Chargement en cours..."}</Title>
                           <Icon
                             name={favIconName}
-                            interactive
-                            accessibleName="Ajouter aux favoris"
                             onClick={onFavoriteClick}
                             style={{
                                 width: 'var(--sapFontHeader2Size)',
