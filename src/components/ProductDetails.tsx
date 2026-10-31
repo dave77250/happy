@@ -50,7 +50,16 @@ export function ProductDetails(props: ProductDetailsProps) {
                 <FlexBox direction={FlexBoxDirection.Column} style={{ width: '80%', margin: '5px' }}>
                     <FlexBox direction={FlexBoxDirection.Row} style={{ width: '100%'}} justifyContent="SpaceBetween">
                         <Title level="H2" size="H2">{productName ?? "Chargement en cours..."}</Title>
-                        <Icon name={favIconName} onClick={onFavoriteClick}/>
+                          <Icon
+                            name={favIconName}
+                            interactive
+                            accessibleName="Ajouter aux favoris"
+                            onClick={onFavoriteClick}
+                            style={{
+                                width: 'var(--sapFontHeader2Size)',
+                                height: 'var(--sapFontHeader2Size)',
+                            }}
+                    />
                     </FlexBox>
                     <p></p>
                     {getRecallInfoMessageStrip()}
