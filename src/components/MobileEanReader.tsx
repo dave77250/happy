@@ -1,7 +1,7 @@
-import { Button, BarcodeScannerDialog } from "@ui5/webcomponents-react";
+import { Button, BarcodeScannerDialog, FlexBox, FlexBoxDirection, FlexBoxAlignItems } from "@ui5/webcomponents-react";
 import { ProductId } from "../model/ProductInfo";
 import { useState } from "react";
-import "@ui5/webcomponents-icons/dist/search.js";
+import "@ui5/webcomponents-icons/dist/bar-code.js";
 
 export type MobileEanReaderProps = {
     slot?: string, // for proper positioning in the footer
@@ -10,8 +10,8 @@ export type MobileEanReaderProps = {
 
 export function MobileEanReader(props: MobileEanReaderProps) {
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
-    return <>
-        <Button accessibleName="Chercher" icon="search" title="Chercher" onClick={() => setDialogOpen(true)}/>
+    return <FlexBox direction = {FlexBoxDirection.Row} alignItems={FlexBoxAlignItems.Center} slot={props.slot}>
+        <Button accessibleName="Scanner" icon="bar-code" title="Scanner" onClick={() => setDialogOpen(true)}/>
         <BarcodeScannerDialog
             open={isDialogOpen}
             onClose={() => setDialogOpen(false)}
@@ -20,5 +20,5 @@ export function MobileEanReader(props: MobileEanReaderProps) {
                 props.eanRead(event.detail.text);
             } }
         />
-    </>
+    </FlexBox>
 }
