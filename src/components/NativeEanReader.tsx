@@ -145,6 +145,7 @@ export default function NativeEanReader({ onScan, onError }: NativeEanReaderProp
       <p style={{ color: '#666' }}>Pointez votre caméra vers un code-barres EAN-13...</p>
     </div>
   );
-}port React, { useEffect, useRef, useSt
+}
+
 
 
