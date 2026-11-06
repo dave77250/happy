@@ -1,101 +1,150 @@
-import React, { useEffect, useRef, useState } from 'react';
+imimport React, { useEffect, useRef, useState } from 'react';
 
-export default function BarcodeScanner() {
-  const videoRef = useRef(null);
-  const [scannedData, setScannedData] = useState(null);
-  const [error, setError] = useState(null);
+// BarcodeDetector n'est pas encore dans lib.dom.d.ts : types minimaux
+interface DetectedBarcode {
+  rawValue: string;
+  format: string;
+}
+
+interface BarcodeDetectorLike {
+  detect(source: HTMLVideoElement): Promise<DetectedBarcode[]>;
+}
+
+interface BarcodeDetectorConstructor {
+  new (options?: { formats?: string[] }): BarcodeDetectorLike;
+  getSupportedFormats(): Promise<string[]>;
+}
+
+type WindowWithBarcodeDetector = Window & {
+  BarcodeDetector?: BarcodeDetectorConstructor;
+};
+
+export interface NativeEanReaderProps {
+  /** Appelé une seule fois, avec le premier EAN-13 détecté. */
+  onScan: (barcode: string) => void;
+  /** Appelé en cas d'erreur (API non supportée, caméra inaccessible...). */
+  onError?: (message: string) => void;
+}
+
+export default function NativeEanReader({ onScan, onError }: NativeEanReaderProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Refs pour que le changement de callbacks ne relance pas la caméra
+  const onScanRef = useRef(onScan);
+  const onErrorRef = useRef(onError);
+  useEffect(() => {
+    onScanRef.current = onScan;
+    onErrorRef.current = onError;
+  }, [onScan, onError]);
 
   useEffect(() => {
-    let stream = null;
-    let animationFrameId = null;
+    let stream: MediaStream | null = null;
+    let animationFrameId: number | null = null;
+    let stopped = false;
+
+    const stop = () => {
+      stopped = true;
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        stream = null;
+      }
+    };
+
+    const fail = (message: string) => {
+      setError(message);
+      onErrorRef.current?.(message);
+    };
 
     const startScanner = async () => {
-      // 1. Vérifier si l'API BarcodeDetector est supportée par le navigateur
-      if (!('BarcodeDetector' in window)) {
-        setError("L'API BarcodeDetector n'est pas supportée par ce navigateur. Utilisez de préférence Google Chrome.");
+      const Detector = (window as WindowWithBarcodeDetector).BarcodeDetector;
+      if (!Detector) {
+        fail("L'API BarcodeDetector n'est pas supportée par ce navigateur. Utilisez de préférence Google Chrome.");
         return;
       }
 
       try {
-        // 2. Demander l'accès à la caméra (caméra arrière de préférence sur mobile)
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' }
-        });
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          await videoRef.current.play();
+        const supportedFormats = await Detector.getSupportedFormats();
+        if (!supportedFormats.includes('ean_13')) {
+          fail("Le format EAN-13 n'est pas supporté par ce navigateur.");
+          return;
         }
 
-        // 3. Initialiser le détecteur avec les formats souhaités
-        const supportedFormats = await window.BarcodeDetector.getSupportedFormats();
-        console.p('Formats supportés :', supportedFormats);
-
-        const barcodeDetector = new window.BarcodeDetector({
-          formats: ['code_128', 'ean_13', 'ean_8', 'qr_code', 'upc_a']
+        const mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' },
         });
 
-        // 4. Boucle de détection continue avec requestAnimationFrame
+        // Le composant a pu être démonté pendant l'attente
+        if (stopped) {
+          mediaStream.getTracks().forEach((track) => track.stop());
+          return;
+        }
+        stream = mediaStream;
+
+        const video = videoRef.current;
+        if (!video) return;
+        video.srcObject = mediaStream;
+        await video.play();
+
+        const detector = new Detector({ formats: ['ean_13'] });
+
         const detectLoop = async () => {
-          if (videoRef.current && videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA) {
+          if (stopped) return;
+
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
             try {
-              const barcodes = await barcodeDetector.detect(videoRef.current);
+              const barcodes = await detector.detect(video);
+              if (stopped) return;
+
               if (barcodes.length > 0) {
-                // On récupère la valeur du premier code-barres détecté
-                setScannedData(barcodes[0].rawValue);
-                
-                // Optionnel : vous pouvez arrêter la boucle ou le flux ici si vous n'avez besoin que d'un scan unique
+                const value = barcodes[0].rawValue;
+                stop(); // coupe la boucle et la caméra
+                onScanRef.current(value);
+                return;
               }
             } catch (err) {
               console.error('Erreur lors de la détection du code-barres :', err);
             }
           }
+
           animationFrameId = requestAnimationFrame(detectLoop);
         };
 
-        detectLoop();
-
+        void detectLoop();
       } catch (err) {
-        setError("Impossible d'accéder à la caméra : " + err.message);
+        const message = err instanceof Error ? err.message : String(err);
+        fail("Impossible d'accéder à la caméra : " + message);
       }
     };
 
-    startScanner();
+    void startScanner();
 
-    // Nettoyage à la destruction du composant (couper la caméra et stopper la boucle)
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-    };
+    return stop;
   }, []);
 
   return (
     <div style={{ textAlign: 'center', fontFamily: 'sans-serif', padding: '20px' }}>
-      <h2>Scanner de Code-Barres Natif (Web)</h2>
-      
       {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 
-      <div style={{ margin: '20px auto', maxWidth: '400px', borderRadius: '8px', overflow: 'hidden', background: '#000' }}>
-        <video 
-          ref={videoRef} 
-          style={{ width: '100%', display: 'block' }} 
-          muted 
-          playsInline 
-        />
+      <div
+        style={{
+          margin: '20px auto',
+          maxWidth: '400px',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          background: '#000',
+        }}
+      >
+        <video ref={videoRef} style={{ width: '100%', display: 'block' }} muted playsInline />
       </div>
 
-      {scannedData ? (
-        <div style={{ marginTop: '20px', padding: '15px', background: '#e8f5e9', border: '1px solid #c8e6c9', borderRadius: '5px', display: 'inline-block' }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#2e7d32' }}>Code scanné avec succès !</h3>
-          <p style={{ fontSize: '1.4em', fontWeight: 'bold', margin: 0 }}>{scannedData}</p>
-        </div>
-      ) : (
-        <p style={{ color: '#666' }}>Pointez votre caméra vers un code-barres...</p>
-      )}
+      <p style={{ color: '#666' }}>Pointez votre caméra vers un code-barres EAN-13...</p>
     </div>
   );
-}
+}port React, { useEffect, useRef, useSt
+
+
