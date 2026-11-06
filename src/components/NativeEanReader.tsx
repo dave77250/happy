@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // BarcodeDetector n'est pas encore dans lib.dom.d.ts : types minimaux
 interface DetectedBarcode {
